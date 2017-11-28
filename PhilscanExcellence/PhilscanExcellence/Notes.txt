@@ -1,0 +1,8 @@
+﻿User Type
+0 = Admin
+1 = Exam Admin
+2 = User
+
+Status
+1 = Active
+0 = Inactive

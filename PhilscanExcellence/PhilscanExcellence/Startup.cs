@@ -8,7 +8,6 @@ namespace PhilscanExcellence
     {
         public void Configuration(IAppBuilder app)
         {
-            ConfigureAuth(app);
         }
     }
 }
