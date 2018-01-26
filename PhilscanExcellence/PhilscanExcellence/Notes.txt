@@ -6,3 +6,12 @@
 Status
 1 = Active
 0 = Inactive
+
+Result Header - STATUS
+0 = Incomplete
+1 = Passed
+2 = Failed
+
+Result Item - Status
+0 = Incorrect
+1 = Correct

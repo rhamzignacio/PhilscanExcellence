@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div ng-controller="eLearningController as vm">
+    <h2>Welcome to Elearning</h2>
+
+    <button class="btn btn-info" data-toggle="modal" data-target="#HeaderModal" ng-click="ClearModal()">New E-Learning</button>
+    <br />
+    <br />
+
+    <div ng-init="InitHeader()">
+        <div class="col-lg-6" ng-repeat="h in vm.Header">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    {{h.Title}}
+
+                    <button class="btn btn-warning pull-right" data-target="#HeaderModal" data-toggle="modal">
+                        <i class="fa fa-gear"></i>
+                    </button>
+
+                    <button class="btn btn-info pull-right" data-target="#HeaderModal" data-toggle="modal"
+                            ng-click="OpenHeader(h)">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+
+                    <button class="btn btn-success pull-right" ng-click="Redirection(h.ID)">
+                        <i class="fa fa-list"></i>
+                    </button>
+                </div>
+
+                <div class="panel-body">
+                    {{h.Description}}
+                </div>
+
+                <div class="panel-footer">
+                    <button class="btn btn-default" data-target="#examModal" data-toggle="modal"
+                            ng-click="TakeExam(h)">
+                        Take Exam
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="examModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">ELearning Details</h4>
+                </div>
+
+                <div class="modal-body">
+                    <span>Title: {{vm.HeaderModal.Title}}</span><br />
+                    <span>Description: {{vm.HeaderModal.Description}}</span><br />
+                    <span>Total Items: </span><br />
+                    <span>Passing: </span><br />
+                    <br />
+
+                    <button class="btn btn-primary">Start</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="HeaderModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">E-Learning Header</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" class="form-control" ng-model="vm.Modal.Title"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" rows="5" ng-model="vm.Modal.Description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-primary" ng-click="SaveHeader(vm.Modal)">Save</button>
+                        <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -12,7 +12,7 @@ namespace PhilscanExcellence.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ExamItems
+    public partial class vm_RandomQuestion
     {
         public System.Guid ID { get; set; }
         public System.Guid HeaderID { get; set; }
@@ -27,5 +27,6 @@ namespace PhilscanExcellence.Models
         public Nullable<System.Guid> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.Guid> AttachmentID { get; set; }
+        public string ShowCreatedBy { get; set; }
     }
 }

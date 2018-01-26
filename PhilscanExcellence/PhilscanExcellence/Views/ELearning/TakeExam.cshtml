@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "TakeExam";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" ng-controller="eLearningController as vm">
+    <br /><br /><br />
+
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8" ng-init="InitTakeExam()">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                {{vm.ExamCount.CurrentItem}}/{{vm.ExamCount.TotalItem}}
+            </div>
+
+            <div class="panel-body">
+                <p>{{vm.Question.Question}}</p>
+
+                <br /><br />
+
+               <input type="radio" name="answer" ng-model="vm.Modal.Answer" value="{{vm.Question.ChoiceA}}" />A. {{vm.Question.ChoiceA}}<br />
+               <input type="radio" name="answer" ng-model="vm.Modal.Answer" value="{{vm.Question.ChoiceB}}" />B. {{vm.Question.ChoiceB}}<br />
+               <input type="radio" name="answer" ng-model="vm.Modal.Answer" value="{{vm.Question.ChoiceC}}" />C. {{vm.Question.ChoiceC}}<br />
+               <input type="radio" name="answer" ng-model="vm.Modal.Answer" value="{{vm.Question.ChoiceD}}" />D. {{vm.Question.ChoiceD}}<br />
+               <input type="radio" name="answer" ng-model="vm.Modal.Answer" value="{{vm.Question.ChoiceE}}" />E. {{vm.Question.ChoiceE}}<br />
+            </div>
+
+            <div class="panel-footer">
+                <button class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+

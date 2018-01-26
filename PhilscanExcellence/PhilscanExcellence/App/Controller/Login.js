@@ -6,6 +6,8 @@
     var vm = this;
 
     $scope.TryLogin = function (username, password) {
+        var error = "N";
+
         $http({
             method: "POST",
             url: "/Home/TryLogin",

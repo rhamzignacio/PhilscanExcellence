@@ -12,20 +12,13 @@ namespace PhilscanExcellence.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ExamItems
+    public partial class ResultItem
     {
         public System.Guid ID { get; set; }
-        public System.Guid HeaderID { get; set; }
-        public string Question { get; set; }
-        public string ChoiceA { get; set; }
-        public string ChoiceB { get; set; }
-        public string ChoiceC { get; set; }
-        public string ChoiceD { get; set; }
-        public string ChoiceE { get; set; }
-        public string ChoiceF { get; set; }
+        public System.Guid ResultID { get; set; }
+        public System.Guid ItemID { get; set; }
         public string Answer { get; set; }
-        public Nullable<System.Guid> CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<System.Guid> AttachmentID { get; set; }
+        public string AnswerDescription { get; set; }
+        public int Status { get; set; }
     }
 }

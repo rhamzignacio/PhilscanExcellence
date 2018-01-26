@@ -25,8 +25,12 @@ namespace PhilscanExcellence.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<ExamAttachment> ExamAttachment { get; set; }
         public virtual DbSet<ExamHeader> ExamHeader { get; set; }
         public virtual DbSet<ExamItems> ExamItems { get; set; }
         public virtual DbSet<UserAccount> UserAccount { get; set; }
+        public virtual DbSet<ResultHeader> ResultHeader { get; set; }
+        public virtual DbSet<ResultItem> ResultItem { get; set; }
+        public virtual DbSet<vm_RandomQuestion> vm_RandomQuestion { get; set; }
     }
 }

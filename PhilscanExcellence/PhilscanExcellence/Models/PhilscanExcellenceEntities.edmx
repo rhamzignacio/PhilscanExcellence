@@ -4,7 +4,18 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PhilscanExcellenceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PhilscanExcellenceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ExamAttachment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Path" Type="varchar(max)" />
+          <Property Name="FileName" Type="varchar" MaxLength="500" />
+          <Property Name="Extension" Type="varchar" MaxLength="100" />
+          <Property Name="FileSize" Type="varchar" MaxLength="100" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="ExamHeader">
           <Key>
             <PropertyRef Name="ID" />
@@ -32,8 +43,28 @@
           <Property Name="Answer" Type="varchar" MaxLength="2" Nullable="false" />
           <Property Name="CreatedBy" Type="uniqueidentifier" />
           <Property Name="CreatedDate" Type="datetime" />
-          <Property Name="PhotoOrigName" Type="varchar" MaxLength="300" />
-          <Property Name="PhotoSystemName" Type="varchar" MaxLength="300" />
+          <Property Name="AttachmentID" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="ResultHeader">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ExamID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TakenBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TotalScore" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResultItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ResultID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ItemID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Answer" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="AnswerDescription" Type="varchar(max)" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="UserAccount">
           <Key>
@@ -51,16 +82,82 @@
           <Property Name="CreatedBy" Type="uniqueidentifier" />
           <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'PhilscanExcellence.dbo.vm_RandomQuestion' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vm_RandomQuestion">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="HeaderID" />
+            <PropertyRef Name="Question" />
+            <PropertyRef Name="ChoiceA" />
+            <PropertyRef Name="ChoiceB" />
+            <PropertyRef Name="Answer" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="HeaderID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Question" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="ChoiceA" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ChoiceB" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ChoiceC" Type="varchar" MaxLength="200" />
+          <Property Name="ChoiceD" Type="varchar" MaxLength="200" />
+          <Property Name="ChoiceE" Type="varchar" MaxLength="200" />
+          <Property Name="ChoiceF" Type="varchar" MaxLength="200" />
+          <Property Name="Answer" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="AttachmentID" Type="uniqueidentifier" />
+          <Property Name="ShowCreatedBy" Type="varchar" MaxLength="161" />
+        </EntityType>
         <EntityContainer Name="PhilscanExcellenceModelStoreContainer">
+          <EntitySet Name="ExamAttachment" EntityType="Self.ExamAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExamHeader" EntityType="Self.ExamHeader" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExamItems" EntityType="Self.ExamItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResultHeader" EntityType="Self.ResultHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResultItem" EntityType="Self.ResultItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAccount" EntityType="Self.UserAccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vm_RandomQuestion" EntityType="Self.vm_RandomQuestion" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vm_RandomQuestion].[ID] AS [ID], 
+    [vm_RandomQuestion].[HeaderID] AS [HeaderID], 
+    [vm_RandomQuestion].[Question] AS [Question], 
+    [vm_RandomQuestion].[ChoiceA] AS [ChoiceA], 
+    [vm_RandomQuestion].[ChoiceB] AS [ChoiceB], 
+    [vm_RandomQuestion].[ChoiceC] AS [ChoiceC], 
+    [vm_RandomQuestion].[ChoiceD] AS [ChoiceD], 
+    [vm_RandomQuestion].[ChoiceE] AS [ChoiceE], 
+    [vm_RandomQuestion].[ChoiceF] AS [ChoiceF], 
+    [vm_RandomQuestion].[Answer] AS [Answer], 
+    [vm_RandomQuestion].[CreatedBy] AS [CreatedBy], 
+    [vm_RandomQuestion].[CreatedDate] AS [CreatedDate], 
+    [vm_RandomQuestion].[AttachmentID] AS [AttachmentID], 
+    [vm_RandomQuestion].[ShowCreatedBy] AS [ShowCreatedBy]
+    FROM [dbo].[vm_RandomQuestion] AS [vm_RandomQuestion]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PhilscanExcellenceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="PhilscanExcellenceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ExamAttachment" EntityType="PhilscanExcellenceModel.ExamAttachment" />
+          <EntitySet Name="ExamHeader" EntityType="PhilscanExcellenceModel.ExamHeader" />
+          <EntitySet Name="ExamItems" EntityType="PhilscanExcellenceModel.ExamItems" />
+          <EntitySet Name="UserAccount" EntityType="PhilscanExcellenceModel.UserAccount" />
+          <EntitySet Name="ResultHeader" EntityType="PhilscanExcellenceModel.ResultHeader" />
+          <EntitySet Name="ResultItem" EntityType="PhilscanExcellenceModel.ResultItem" />
+          <EntitySet Name="vm_RandomQuestion" EntityType="PhilscanExcellenceModel.vm_RandomQuestion" />
+        </EntityContainer>
+        <EntityType Name="ExamAttachment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FileName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Extension" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FileSize" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+        </EntityType>
         <EntityType Name="ExamHeader">
           <Key>
             <PropertyRef Name="ID" />
@@ -78,18 +175,17 @@
           </Key>
           <Property Name="ID" Type="Guid" Nullable="false" />
           <Property Name="HeaderID" Type="Guid" Nullable="false" />
-          <Property Name="Question" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ChoiceA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ChoiceB" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Question" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ChoiceA" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ChoiceB" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="ChoiceC" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="ChoiceD" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="ChoiceE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="ChoiceF" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Answer" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Answer" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
           <Property Name="CreatedBy" Type="Guid" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="PhotoOrigName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="PhotoSystemName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="AttachmentID" Type="Guid" />
         </EntityType>
         <EntityType Name="UserAccount">
           <Key>
@@ -107,63 +203,157 @@
           <Property Name="CreatedBy" Type="Guid" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityContainer Name="PhilscanExcellenceEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ExamHeader" EntityType="Self.ExamHeader" />
-          <EntitySet Name="ExamItems" EntityType="Self.ExamItems" />
-          <EntitySet Name="UserAccount" EntityType="Self.UserAccount" />
-        </EntityContainer>
-      </Schema>
+        <EntityType Name="ResultHeader">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="ExamID" Type="Guid" Nullable="false" />
+          <Property Name="TakenBy" Type="Guid" Nullable="false" />
+          <Property Name="TotalScore" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResultItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="ResultID" Type="Guid" Nullable="false" />
+          <Property Name="ItemID" Type="Guid" Nullable="false" />
+          <Property Name="Answer" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="AnswerDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vm_RandomQuestion">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="HeaderID" />
+            <PropertyRef Name="Question" />
+            <PropertyRef Name="ChoiceA" />
+            <PropertyRef Name="ChoiceB" />
+            <PropertyRef Name="Answer" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="HeaderID" Type="Guid" Nullable="false" />
+          <Property Name="Question" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ChoiceA" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ChoiceB" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ChoiceC" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ChoiceD" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ChoiceE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ChoiceF" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Answer" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Guid" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="AttachmentID" Type="Guid" />
+          <Property Name="ShowCreatedBy" Type="String" MaxLength="161" FixedLength="false" Unicode="false" />
+        </EntityType>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="PhilscanExcellenceModelStoreContainer" CdmEntityContainer="PhilscanExcellenceEntities">
+          <EntitySetMapping Name="ExamAttachment">
+            <EntityTypeMapping TypeName="PhilscanExcellenceModel.ExamAttachment">
+              <MappingFragment StoreEntitySet="ExamAttachment">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ExamHeader">
             <EntityTypeMapping TypeName="PhilscanExcellenceModel.ExamHeader">
               <MappingFragment StoreEntitySet="ExamHeader">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ExamItems">
             <EntityTypeMapping TypeName="PhilscanExcellenceModel.ExamItems">
               <MappingFragment StoreEntitySet="ExamItems">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="HeaderID" ColumnName="HeaderID" />
-                <ScalarProperty Name="Question" ColumnName="Question" />
-                <ScalarProperty Name="ChoiceA" ColumnName="ChoiceA" />
-                <ScalarProperty Name="ChoiceB" ColumnName="ChoiceB" />
-                <ScalarProperty Name="ChoiceC" ColumnName="ChoiceC" />
-                <ScalarProperty Name="ChoiceD" ColumnName="ChoiceD" />
-                <ScalarProperty Name="ChoiceE" ColumnName="ChoiceE" />
-                <ScalarProperty Name="ChoiceF" ColumnName="ChoiceF" />
-                <ScalarProperty Name="Answer" ColumnName="Answer" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="AttachmentID" ColumnName="AttachmentID" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="PhotoOrigName" ColumnName="PhotoOrigName" />
-                <ScalarProperty Name="PhotoSystemName" ColumnName="PhotoSystemName" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="ChoiceF" ColumnName="ChoiceF" />
+                <ScalarProperty Name="ChoiceE" ColumnName="ChoiceE" />
+                <ScalarProperty Name="ChoiceD" ColumnName="ChoiceD" />
+                <ScalarProperty Name="ChoiceC" ColumnName="ChoiceC" />
+                <ScalarProperty Name="ChoiceB" ColumnName="ChoiceB" />
+                <ScalarProperty Name="ChoiceA" ColumnName="ChoiceA" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="HeaderID" ColumnName="HeaderID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAccount">
             <EntityTypeMapping TypeName="PhilscanExcellenceModel.UserAccount">
               <MappingFragment StoreEntitySet="UserAccount">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="MiddleInitial" ColumnName="MiddleInitial" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Department" ColumnName="Department" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleInitial" ColumnName="MiddleInitial" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResultHeader">
+            <EntityTypeMapping TypeName="PhilscanExcellenceModel.ResultHeader">
+              <MappingFragment StoreEntitySet="ResultHeader">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TotalScore" ColumnName="TotalScore" />
+                <ScalarProperty Name="TakenBy" ColumnName="TakenBy" />
+                <ScalarProperty Name="ExamID" ColumnName="ExamID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResultItem">
+            <EntityTypeMapping TypeName="PhilscanExcellenceModel.ResultItem">
+              <MappingFragment StoreEntitySet="ResultItem">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AnswerDescription" ColumnName="AnswerDescription" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="ResultID" ColumnName="ResultID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vm_RandomQuestion">
+            <EntityTypeMapping TypeName="PhilscanExcellenceModel.vm_RandomQuestion">
+              <MappingFragment StoreEntitySet="vm_RandomQuestion">
+                <ScalarProperty Name="ShowCreatedBy" ColumnName="ShowCreatedBy" />
+                <ScalarProperty Name="AttachmentID" ColumnName="AttachmentID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="ChoiceF" ColumnName="ChoiceF" />
+                <ScalarProperty Name="ChoiceE" ColumnName="ChoiceE" />
+                <ScalarProperty Name="ChoiceD" ColumnName="ChoiceD" />
+                <ScalarProperty Name="ChoiceC" ColumnName="ChoiceC" />
+                <ScalarProperty Name="ChoiceB" ColumnName="ChoiceB" />
+                <ScalarProperty Name="ChoiceA" ColumnName="ChoiceA" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="HeaderID" ColumnName="HeaderID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

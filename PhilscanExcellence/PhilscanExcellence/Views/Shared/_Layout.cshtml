@@ -1,10 +1,10 @@
-﻿<html>
+﻿<html ng-app="app">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Philscan Excellence</title>
     @Styles.Render("~/Content/css")
-
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
 </head>
 <body>
     <div id="wrapper">
@@ -50,7 +50,7 @@
                         </li>
 
                         <li>
-                            <a href="eLearning.html"><i class="fa fa-file-text-o fa-fw"></i>E-Learning</a>
+                            <a href="/ELearning/Index"><i class="fa fa-file-text-o fa-fw"></i>E-Learning</a>
                         </li>
 
                         <li>
@@ -74,6 +74,5 @@
 
     @Scripts.Render("~/bundles/Script")
     @Scripts.Render("~/bundles/angular")
-    @RenderSection("scripts", required: false)
 </body>
 </html>

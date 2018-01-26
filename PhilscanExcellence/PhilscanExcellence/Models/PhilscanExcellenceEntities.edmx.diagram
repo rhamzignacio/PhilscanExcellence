@@ -5,9 +5,13 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="2c5546a3c56048ee9f3fdb6c829383cd" Name="Diagram1">
-        <EntityTypeShape EntityType="PhilscanExcellenceModel.ExamHeader" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PhilscanExcellenceModel.ExamItems" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PhilscanExcellenceModel.UserAccount" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PhilscanExcellenceModel.ExamAttachment" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="PhilscanExcellenceModel.ExamHeader" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="PhilscanExcellenceModel.ExamItems" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="PhilscanExcellenceModel.UserAccount" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="PhilscanExcellenceModel.ResultHeader" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="PhilscanExcellenceModel.ResultItem" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="PhilscanExcellenceModel.vm_RandomQuestion" Width="1.5" PointX="5.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

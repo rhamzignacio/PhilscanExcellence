@@ -15,6 +15,7 @@
 
     @Styles.Render("~/Content/css")
 </head>
+
 <body ng-controller="loginController as vm">
     <div growl class="fading"></div>
 
@@ -44,6 +45,10 @@
 
 
     @Scripts.Render("~/bundles/Script")
-    @Scripts.Render("~/bundles/angular")
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-growl.min.js"></script>
+    <script src="~/Scripts/select2.full.min.js"></script>
+    <script src="~/App/Controller/Login.js"></script>
+
 </body>
 </html>
